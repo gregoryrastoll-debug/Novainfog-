@@ -1,8 +1,13 @@
 // src/components/BackgroundParticles.tsx
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect } from 'react'; 
 
+declare global {
+  interface Window {
+    particlesJS: (id: string, config: any) => void;
+  }
+}
 export default function ParticleBackground() {
   useEffect(() => {
     console.log('Montage de ParticleBackground');
