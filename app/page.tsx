@@ -5,6 +5,7 @@ import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { CalendarIcon, CheckCircle, Clock, Mail } from 'lucide-react';
 import { toast } from 'sonner';
+import { motion } from "framer-motion";
 
 import { Button } from '@/components/ui/button';
 import {
@@ -99,9 +100,36 @@ export default function Home() {
       {/* Hero */}
       <section className="relative py-32 px-6 md:px-12 lg:px-24 bg-transparence">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-15">
-            NovaInfogé <br className="hidden md:block" />
-          </h1>
+        <motion.h1
+  className="text-5xl md:text-7xl font-bold tracking-tight mb-6"
+  animate={{
+    y: [0, -15, 0],
+    scale: [1, 1.015, 1],      // très légère pulsation (1.5 %)
+    rotate: [0, 0.6, -0.6, 0], // oscillation de 0.6°
+  }}
+  transition={{
+    y: {
+      duration: 9,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: [0.42, 0, 0.58, 1], // easeInOutSine – très doux
+    },
+    scale: {
+      duration: 12,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+    rotate: {
+      duration: 14,
+      repeat: Infinity,
+      repeatType: "reverse",
+      ease: "easeInOut",
+    },
+  }}
+>
+  Novainfogé <br className="hidden md:block" />
+</motion.h1>
           <p className="text-xl md:text-2xl text-zinc-200 mb-16 max-w-3xl mx-auto">
             Société d'infogérence et d'accompagnement IT.  
             Disponibilités en temps réel.
@@ -293,9 +321,9 @@ export default function Home() {
               <div className="h-12 w-12 bg-sky-100 rounded-full flex items-center justify-center mb-6">
                 <Mail className="h-6 w-6 text-sky-400" />
               </div>
-              <h3 className="text-2xl font-semibold mb-4 text-sky-600">Simplicité</h3>
+              <h3 className="text-2xl font-semibold mb-4 text-sky-600">infogérence </h3>
               <p className="text-sky-300">
-                Pas d’inscription ni de compte. Juste un email et quelques clics.
+                Novainfogé prend en charge la gestion, la maintenance, la supervision et la sécurisation de l’infrastructure informatique de votre entreprise. 
               </p>
             </div>
           </div>
@@ -304,17 +332,7 @@ export default function Home() {
       {/* Bloc blanc tout en bas : À propos + Mentions légales */}
         <footer className="bg-white py-16 px-6 text-gray-800 border-t border-gray-200">
           <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12">
-            {/* À propos */}
-            <div>
-              <h3 className="text-2xl font-bold mb-6 text-sky-700">À propos de Novinfogé</h3>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                Novinfogé est une solution simple et rapide pour prendre rendez-vous en ligne avec des professionnels.  
-                Grâce à une synchronisation en temps réel avec l'agenda, vous gagnez du temps et évitez les allers-retours par téléphone ou email.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                Nous mettons l'accent sur la simplicité : pas d'inscription obligatoire, une interface claire et une confirmation immédiate.
-              </p>
-            </div>
+            
 
             {/* Mentions légales */}
             <div>

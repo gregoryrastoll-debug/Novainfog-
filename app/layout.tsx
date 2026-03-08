@@ -1,4 +1,5 @@
 import { Inter } from "next/font/google";
+import Navbar from "@/components/Navbar";  // ← Import de la Navbar
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -25,13 +26,28 @@ export default function RootLayout({
           min-h-screen
         `}
       >
-        {children}
+        {/* Navbar fixe en haut */}
+        <Navbar />
+
+        {/* Contenu principal avec padding pour laisser de la place au navbar */}
+        <main className="pt-20">
+          {children}
+        </main>
+
+        {/* Toaster adapté au fond sombre */}
         <Toaster
           richColors
           position="top-right"
           closeButton
           theme="dark"
           duration={5000}
+          toastOptions={{
+            classNames: {
+              toast: "bg-zinc-900 border border-zinc-700 text-zinc-100",
+              title: "text-zinc-100 font-semibold",
+              description: "text-zinc-400",
+            },
+          }}
         />
       </body>
     </html>
