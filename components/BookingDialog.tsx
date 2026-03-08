@@ -1,3 +1,4 @@
+// components/BookingDialog.tsx
 'use client';
 
 import { useState, ReactNode } from 'react';
@@ -48,6 +49,7 @@ interface BookingDialogProps {
   triggerClassName?: string;
   triggerVariant?: 'default' | 'outline' | 'secondary' | 'ghost' | 'link' | 'destructive';
   size?: 'default' | 'sm' | 'lg' | 'icon';
+  /** Contenu personnalisé du bouton déclencheur (ex: icônes + texte avec hover) */
   triggerChildren?: ReactNode;
 }
 
@@ -58,9 +60,6 @@ export default function BookingDialog({
   size = 'lg',
   triggerChildren,
 }: BookingDialogProps) {
-  // ────────────────────────────────────────────────
-  // Déplace TOUS les states AVANT le return
-  // ────────────────────────────────────────────────
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -112,10 +111,6 @@ export default function BookingDialog({
     }
   };
 
-  // ────────────────────────────────────────────────
-  // Maintenant isSubmitting est connu partout
-  // ────────────────────────────────────────────────
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -139,8 +134,126 @@ export default function BookingDialog({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-6">
-            {/* ... le reste du formulaire reste IDENTIQUE ... */}
-            {/* (FormField name, email, date, heure, notes, bouton submit) */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nom complet</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Jean Dupont"
+                      className="bg-white border-sky-100 text-black placeholder:text-sky-300"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="jean@example.com"
+                      type="email"
+                      className="bg-white border-sky-100 text-black placeholder:text-sky-300"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormItem>
+              <FormLabel>Date</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      'w-full justify-start text-left font-normal bg-white border-sky-100 hover:bg-sky-50 text-sky-700',
+                      !date && 'text-sky-400'
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, 'PPP', { locale: fr }) : 'Choisir une date'}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 bg-white border-sky-200 shadow-xl rounded-xl">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                    locale={fr}
+                    className="rounded-md border border-sky-200 bg-white p-3 text-sky-700"
+                    classNames={{
+                      day_selected: 'bg-sky-600 text-white hover:bg-sky-700 focus:bg-sky-700',
+                      day_today: 'bg-sky-100 text-sky-800 font-bold',
+                      day: 'hover:bg-sky-50 aria-selected:bg-sky-600 aria-selected:text-white',
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
+              <FormMessage />
+            </FormItem>
+
+            <FormItem>
+              <FormLabel>Heure</FormLabel>
+              <div className="grid grid-cols-4 sm:grid-cols-5 gap-2 max-h-48 overflow-y-auto p-3 bg-white border border-sky-100 rounded-lg">
+                {timeSlots.map((time) => (
+                  <Button
+                    key={time}
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className={cn(
+                      'text-sm border-sky-200 hover:bg-sky-50 hover:text-sky-700 transition-colors',
+                      selectedTime === time && 'bg-sky-600 text-white hover:bg-sky-700 border-sky-600'
+                    )}
+                    onClick={() => setSelectedTime(time)}
+                  >
+                    {time}
+                  </Button>
+                ))}
+              </div>
+              {!selectedTime && date && (
+                <p className="text-sm text-sky-500 mt-1">Veuillez sélectionner une heure</p>
+              )}
+            </FormItem>
+
+            <FormField
+              control={form.control}
+              name="notes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Notes (facultatif)</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Précisions sur le rendez-vous..."
+                      className="bg-white border-sky-100 text-black min-h-[100px] placeholder:text-sky-300"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Button
+              type="submit"
+              className="w-full bg-sky-600 hover:bg-sky-700 text-white py-6 text-lg transition-colors"
+              disabled={isSubmitting || !date || !selectedTime}
+            >
+              {isSubmitting ? 'Enregistrement...' : 'Confirmer le rendez-vous'}
+            </Button>
           </form>
         </Form>
       </DialogContent>
