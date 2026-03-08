@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";  // ← Import de la Navbar
+import Footer from '@/components/Footer'; // ajuste le chemin selon ton arborescence
 import { Toaster } from "sonner";
 import "./globals.css";
 
@@ -49,6 +50,7 @@ export default function RootLayout({
             },
           }}
         />
+        <Footer/>
       </body>
     </html>
   );

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";  // ← Icônes burger et croix
+import BookingDialog from '@/components/BookingDialog'; // ← Ajout de l'import
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,7 +15,7 @@ export default function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-md border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center">
@@ -40,13 +41,12 @@ export default function Navbar() {
 >
   À propos
 </Link>
-          <Link href="/contact" className="text-gray-700 hover:text-gray-900 transition-colors">
-            Contact
-          </Link>
+          
 
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md">
-            Prendre RDV
-          </Button>
+           <BookingDialog 
+              triggerText="Prendre RDV"
+              triggerClassName="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md"
+            />
         </div>
 
         {/* Bouton burger mobile */}
@@ -69,16 +69,12 @@ export default function Navbar() {
             <Link href="/about" className="text-lg text-gray-800 hover:text-blue-600 transition-colors" onClick={closeMenu}>
               À propos
             </Link>
-            <Link href="/contact" className="text-lg text-gray-800 hover:text-blue-600 transition-colors" onClick={closeMenu}>
-              Contact
-            </Link>
-
-            <Button 
-              className="bg-blue-600 hover:bg-blue-700 text-white w-full py-3 text-lg"
-              onClick={closeMenu}
-            >
-              Prendre RDV
-            </Button>
+            
+            <BookingDialog 
+              triggerText="Prendre RDV"
+              triggerClassName="bg-blue-600 hover:bg-blue-700 text-white w-full py-3 text-lg"
+            />
+           
           </div>
         </div>
       )}

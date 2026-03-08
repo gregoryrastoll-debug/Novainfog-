@@ -1,28 +1,66 @@
 // app/apropos.tsx
+'use client';
+
 import { CheckCircle, Clock, Users, ShieldCheck } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import ParticleBackground from '@/components/BackgroundParticles';
+import { motion } from "framer-motion";
+import BookingDialog from '@/components/BookingDialog';  // ← formulaire RDV
+// ────────────────────────────────────────────────
+// Animations identiques à services.tsx
+// ────────────────────────────────────────────────
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
+};
+
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.15 },
+  },
+};
+// ────────────────────────────────────────────────
 
 export default function APropos() {
   return (
-    <div className="min-h-screen bg-transparence text-white pt-24"> {/* pt-24 pour laisser de la place à la navbar fixe */}
-    <ParticleBackground />
+    <div className="min-h-screen bg-transparence text-white pt-24">
+      <ParticleBackground />
+
       {/* Hero / Titre */}
       <section className="py-32 px-6 md:px-12 lg:px-24 bg-transparence">
-        <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={staggerContainer}
+          className="max-w-5xl mx-auto text-center"
+        >
+          <motion.h1
+            variants={fadeInUp}
+            className="text-5xl md:text-7xl font-bold tracking-tight mb-6"
+          >
             À propos de Novainfogé
-          </h1>
-          <p className="text-xl md:text-2xl text-zinc-400 max-w-4xl mx-auto">
+          </motion.h1>
+
+          <motion.p
+            variants={fadeInUp}
+            className="text-xl md:text-2xl text-zinc-400 max-w-4xl mx-auto"
+          >
             Nous transformons les problèmes IT en solutions simples, rapides et fiables.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
       </section>
 
       {/* Qui sommes-nous */}
-      <section className="py-20 px-6 md:px-12 lg:px-24 bg-transparence">
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+        variants={staggerContainer}
+        className="py-20 px-6 md:px-12 lg:px-24 bg-transparence"
+      >
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-          <div>
+          <motion.div variants={fadeInUp}>
             <h2 className="text-4xl md:text-5xl font-bold mb-8">
               Une mission claire
             </h2>
@@ -33,9 +71,9 @@ export default function APropos() {
             <p className="text-lg text-zinc-300 leading-relaxed">
               Que vous soyez une PME, un artisan, un commerçant ou un indépendant, nous vous accompagnons avec des solutions sur mesure, transparentes et sans jargon inutile.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="space-y-8">
+          <motion.div variants={fadeInUp} className="space-y-8">
             <div className="flex items-start gap-4">
               <div className="h-12 w-12 bg-transparence rounded-full flex items-center justify-center flex-shrink-0">
                 <Clock className="h-6 w-6 text-blue-400" />
@@ -71,12 +109,18 @@ export default function APropos() {
                 </p>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* CTA final */}
-      <section className="py-24 px-6 bg-transparence text-center">
+      <motion.section
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={fadeInUp}
+        className="py-24 px-6 bg-transparence text-center"
+      >
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold mb-8">
             Prêt à simplifier votre informatique ?
@@ -85,11 +129,12 @@ export default function APropos() {
             Contactez-nous ou réservez un créneau directement.
           </p>
 
-          <Button size="lg" className="text-xl px-12 py-8 bg-transparence text-black hover:bg-gray-transparence">
-            Prendre RDV maintenant
-          </Button>
+          <BookingDialog 
+            triggerText="Prendre RDV maintenant"
+            triggerClassName="text-xl px-12 py-8 bg-transparence text-white hover:bg-transparence shadow-2xl transition-all duration-300"
+          />
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

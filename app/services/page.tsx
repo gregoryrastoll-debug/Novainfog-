@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import ParticleBackground from '@/components/BackgroundParticles';
 
+import BookingDialog from '@/components/BookingDialog';
+
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7 } },
@@ -201,19 +203,16 @@ export default function Services() {
             whileTap={{ scale: 0.98 }}
             className="inline-block relative"
           >
-            <Button
-              size="lg"
-              className="text-2xl sm:text-3xl px-12 sm:px-16 py-8 sm:py-10 bg-gradient-to-r from-white to-zinc-200 text-black hover:from-zinc-100 hover:to-white shadow-2xl shadow-blue-950/40 transition-all duration-500 group relative overflow-hidden"
-              asChild
-            >
-              <Link href="/contact" className="flex items-center gap-4">
-                <ThumbsUp
-                  className="h-8 w-8 text-blue-600 group-hover:text-blue-500 transition-colors"
-                />
-                <span>Parlons de votre projet</span>
-                <ArrowRight className="h-7 w-7 transition-transform group-hover:translate-x-2" />
-              </Link>
-            </Button>
+            <BookingDialog
+              triggerClassName="text-2xl sm:text-3xl px-12 sm:px-16 py-8 sm:py-10 bg-gradient-to-r from-white to-zinc-200 text-black hover:from-zinc-100 hover:to-white shadow-2xl shadow-blue-950/40 transition-all duration-500 group relative overflow-hidden"
+              children={
+                <div className="flex items-center gap-4">
+                  <ThumbsUp className="h-8 w-8 text-blue-600 group-hover:text-blue-500 transition-colors" />
+                  <span>Parlons de votre projet</span>
+                  <ArrowRight className="h-7 w-7 transition-transform group-hover:translate-x-2" />
+                </div>
+              }
+            />
 
             {/* Effet glow / shine autour du bouton */}
             <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-3xl opacity-0 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none" />
