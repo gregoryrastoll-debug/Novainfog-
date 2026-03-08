@@ -205,7 +205,7 @@ export default function Services() {
           >
             <BookingDialog
               triggerClassName="text-2xl sm:text-3xl px-12 sm:px-16 py-8 sm:py-10 bg-gradient-to-r from-white to-zinc-200 text-black hover:from-zinc-100 hover:to-white shadow-2xl shadow-blue-950/40 transition-all duration-500 group relative overflow-hidden"
-              children={
+              triggerChildren={
                 <div className="flex items-center gap-4">
                   <ThumbsUp className="h-8 w-8 text-blue-600 group-hover:text-blue-500 transition-colors" />
                   <span>Parlons de votre projet</span>
